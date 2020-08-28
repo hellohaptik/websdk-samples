@@ -40,14 +40,15 @@
         src="https://toolassets.haptikapi.com/platform/javascript-xdk/production/loader.js"></script>
 
     <!-- Added logic to open the chat screen with launch message on click on custom-icon -->
-    <script type="text/javascript">
-        var isFirstTimeUser = true;
+    <script type="text/javascript">        
+        var launch_type = "LAUNCH_EACH_TIME" //LAUNCH_SINGLE_TIME
+        var isFirstTimeUser = isLaunchMessage(launch_type);
         document.addEventListener('haptik_sdk', function () {
             document.getElementsByClassName("chat-window")[0].addEventListener("click", function () {
                 // Add the condition here if you want to open chat SDK with Launch Message
                 // Maybe only for first time users.
                 if (isFirstTimeUser) {
-                    isFirstTimeUser = false
+                    isFirstTimeUser = setLaunchMessage(launch_type, false);
                     HaptikSDK.launchMessage("This is a launch message", function () {
                         console.log("Message sent!!!!!!!");
                     }, hidden = false); // Set hidden = true if you don't want to show the launch message in chat history
@@ -57,6 +58,23 @@
                 }
             });
         });
+
+        //Default launch message is local variable
+        function isLaunchMessage(launch_type){            
+            if(launch_type == "LAUNCH_SINGLE_TIME"){
+                return !localStorage.getItem("haptik-disable-launch-msg");
+            }else{
+                return true;
+            }
+        }
+        function setLaunchMessage(launch_type, value){
+            if(launch_type == "LAUNCH_SINGLE_TIME"){
+                localStorage.setItem("haptik-disable-launch-msg", !value);
+            }else{
+                // Setting to global variable
+                isFirstTimeUser = value;
+            }
+        }
     </script>
 </body>
 
