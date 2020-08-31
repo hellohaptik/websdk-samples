@@ -48,7 +48,7 @@
                 // Add the condition here if you want to open chat SDK with Launch Message
                 // Maybe only for first time users.
                 if (isFirstTimeUser) {
-                    isFirstTimeUser = setLaunchMessage(launch_type, false);
+                    isFirstTimeUser = disableLaunchMessage(launch_type);
                     HaptikSDK.launchMessage("This is a launch message", function () {
                         console.log("Message sent!!!!!!!");
                     }, hidden = false); // Set hidden = true if you don't want to show the launch message in chat history
@@ -67,12 +67,12 @@
                 return true;
             }
         }
-        function setLaunchMessage(launch_type, value){
+        function disableLaunchMessage(launch_type){
             if(launch_type == "LAUNCH_SINGLE_TIME"){
-                localStorage.setItem("haptik-disable-launch-msg", !value);
+                localStorage.setItem("haptik-disable-launch-msg", true);
             }else{
                 // Setting to global variable
-                isFirstTimeUser = value;
+                isFirstTimeUser = false;
             }
         }
     </script>
