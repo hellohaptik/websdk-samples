@@ -63,18 +63,18 @@
         });
 
         /*
-            Allow's to set launch message at session and browser level using session storage and local storage respectively
+            Allow's to set launch message at session and browser level using session storage and local storage respectively.
             By Default no launch message will be trigger.
             Once the launch message is trigger it disables the status based on launch type i.e. LAUNCH_SINGLE_TIME or LAUNCH_EACH_SESSION
         */
         function shouldSendLaunchMessage(launch_type){            
             if(launch_type == "LAUNCH_SINGLE_TIME"){
-                // Get status if to be launched or not
+                // Get status if launch msg is to be sent or not
                 const status = !localStorage.getItem("haptik-disable-launch-msg");
                 // Disable the launch msg for lifetime of browser
                 localStorage.setItem("haptik-disable-launch-msg", true);                
             }else if(launch_type == "LAUNCH_EACH_SESSION"){
-                // Get status if to be launched or not
+                // Get status if launch msg is to be sent or not
                 const status = !sessionStorage.getItem("haptik-disable-launch-msg");
                 // Disable the launch msg for browser session
                 sessionStorage.setItem("haptik-disable-launch-msg", true);                
