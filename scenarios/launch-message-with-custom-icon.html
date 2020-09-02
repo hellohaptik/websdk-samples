@@ -42,9 +42,9 @@
     <!-- Added logic to open the chat screen with launch message on click on custom-icon -->
     <script type="text/javascript">        
         /*
-            @LAUNCH_EACH_SESSION will trigger launch msg on each browser session it uses session storage whenever a new session/new tab is intiated launch message will be triggered
+            @LAUNCH_EACH_SESSION will trigger launch msg on each browser session it uses session storage whenever a new session/new tab is intiated launch message get triggered
             
-            @LAUNCH_SINGLE_TIME will be triggered for lifetime of the browser it uses localstorage.
+            @LAUNCH_SINGLE_TIME will be triggered for single lifetime of the browser it uses localstorage.
         */
         var launch_type = "LAUNCH_EACH_SESSION" //LAUNCH_SINGLE_TIME        
         document.addEventListener('haptik_sdk', function () {
@@ -63,9 +63,9 @@
         });
 
         /*
-            Allow's to set launch message session and browser level using session storage and local storag respectively
-            Default no launch message would trigger.
-            Once the launch message is trigger it disable the status based on launch type i.e. LAUNCH_SINGLE_TIME or LAUNCH_EACH_SESSION
+            Allow's to set launch message at session and browser level using session storage and local storage respectively
+            By Default no launch message will be trigger.
+            Once the launch message is trigger it disables the status based on launch type i.e. LAUNCH_SINGLE_TIME or LAUNCH_EACH_SESSION
         */
         function shouldSendLaunchMessage(launch_type){            
             if(launch_type == "LAUNCH_SINGLE_TIME"){
