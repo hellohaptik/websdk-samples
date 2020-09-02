@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Haptik SDK - Web Samples</title>
+</head>
+
+<body>
+    <style>
+        .chat-window {
+            position: fixed;
+            cursor: pointer;
+            justify-content: center;
+            border-radius: 8px;
+            width: 110px;
+            height: 40px;
+            color: #fff;
+            text-align: center;
+            font-weight: 500;
+            font-size: 14px;
+            background-color: #0E4498;
+            bottom: 30px;
+            right: 30px;
+        }
+    </style>
+    <div id="haptik-chatbot-button" class="chat-window">
+        <p>Lets Chat!</p>
+    </div>
+    <script type="text/javascript">
+        var haptikInitSettings = {
+            "base-url": "<BASE_URL>",
+            "business-id": "<BUSINESS_ID>",
+            "client-id": "<CLIENT_ID>",
+            "custom-button": true
+        };
+    </script>
+    <script type="text/javascript" charset="UTF-8"
+        src="https://toolassets.haptikapi.com/platform/javascript-xdk/production/loader.js"></script>
+
+    <!-- Added logic to open the chat screen with launch message on click on custom-icon -->
+    <script type="text/javascript">        
+        /*
+            @LAUNCH_EACH_SESSION will trigger launch msg on each browser session it uses session storage whenever a new session/new tab is intiated launch message get triggered
+            
+            @LAUNCH_SINGLE_TIME will be triggered for single lifetime of the browser it uses localstorage.
+        */
+        var launch_type = "LAUNCH_EACH_SESSION" //LAUNCH_SINGLE_TIME        
+        document.addEventListener('haptik_sdk', function () {
+            document.getElementsByClassName("chat-window")[0].addEventListener("click", function () {
+                // Add the condition here if you want to open chat SDK with Launch Message
+                // Maybe only for first time users.                
+                if (shouldSendLaunchMessage(launch_type)) {                    
+                    HaptikSDK.launchMessage("This is a launch message", function () {
+                        console.log("Message sent!!!!!!!");
+                    }, hidden = false); // Set hidden = true if you don't want to show the launch message in chat history
+                }
+                else {
+                    HaptikSDK.expandWidget();
+                }
+            });
+        });
+
+        /*
+            Allow's to set launch message at session and browser level using session storage and local storage respectively.
+            By Default no launch message will be trigger.
+            Once the launch message is trigger it disables the status based on launch type i.e. LAUNCH_SINGLE_TIME or LAUNCH_EACH_SESSION
+        */
+        function shouldSendLaunchMessage(launch_type){            
+            if(launch_type == "LAUNCH_SINGLE_TIME"){
+                // Get status if launch msg is to be sent or not
+                const status = !localStorage.getItem("haptik-disable-launch-msg");
+                // Disable the launch msg for lifetime of browser
+                localStorage.setItem("haptik-disable-launch-msg", true);                
+            }else if(launch_type == "LAUNCH_EACH_SESSION"){
+                // Get status if launch msg is to be sent or not
+                const status = !sessionStorage.getItem("haptik-disable-launch-msg");
+                // Disable the launch msg for browser session
+                sessionStorage.setItem("haptik-disable-launch-msg", true);                
+            }else{
+                // Bydefault no launch message to be sent
+                const status = false;
+            }
+            return status;
+        }
+    </script>
+</body>
+
+</html>
