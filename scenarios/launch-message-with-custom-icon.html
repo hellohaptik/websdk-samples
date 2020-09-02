@@ -72,16 +72,18 @@
                 // Get status if to be launched or not
                 const status = !localStorage.getItem("haptik-disable-launch-msg");
                 // Disable the launch msg for lifetime of browser
-                localStorage.setItem("haptik-disable-launch-msg", true);
-                return status;
+                localStorage.setItem("haptik-disable-launch-msg", true);                
             }else if(launch_type == "LAUNCH_EACH_SESSION"){
                 // Get status if to be launched or not
                 const status = !sessionStorage.getItem("haptik-disable-launch-msg");
                 // Disable the launch msg for browser session
-                sessionStorage.setItem("haptik-disable-launch-msg", true);
-                return status;
+                sessionStorage.setItem("haptik-disable-launch-msg", true);                
+            }else{
+                // Bydefault no launch message to be sent
+                const status = false;
             }
-        }        
+            return status;
+        }
     </script>
 </body>
 
