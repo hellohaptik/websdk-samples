@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<HTML>
+<head>
+    <meta charset="UTF-8" />
+    <meta content="width=device-width; initial-scale=1.0;" name="viewport" />
+    <title>Haptik website demo</title>
+</head>
+<body>
+    /*
+    Will capture the utm parameters for the user and save it in the user details and using it in
+    crm api in enterprise service to capture the leads genrated via bot and also will take care of
+    genrating the number of users if user reloads.
+    */
+    <script>
+        window.haptikInitSettings = {
+        'business-id': 494,
+        'client-id': '50f5f6640e4dd2876b4f94d788162fb7e89ba0db',
+        'base-url': 'https://api.haptikapi.com/',
+        'signup-type': 'third_party'
+        }
+    </script>
+        <script type="text/javascript" charset="UTF-8" src="https://toolassets.haptikapi.com/platform/javascript-xdk/production/loader.js"></script>
+        <script type="text/javascript">
+            function createAndValidateAuthId(key){
+                var auth_id;
+                var local_item = localStorage.getItem(key);
+                if (local_item) {
+                auth_id = local_item;
+                } else {
+                auth_id = Math.random().toString(36).slice(2);
+                localStorage.setItem(key,auth_id);
+                }
+                return auth_id;
+                }
+            function createAndValidateAuthCode(key){
+                var auth_code;
+                var local_item = localStorage.getItem(key);
+                if (local_item) {
+                auth_code = local_item;
+                } else {
+                auth_code = Math.random().toString(36).slice(2);
+                localStorage.setItem(key,auth_code);
+                }
+                return auth_code;
+                }
+            function fetchTrafficSourceCookie(key){
+                var cookieString = document.cookie;
+                var c = cookieString.split("; ");
+                var utm_cookie;
+                c.forEach( (item) => {
+                if (item.includes(key)){
+                utm_cookie =  item;
+                }
+                });
+                return utm_cookie;
+                }
+            document.addEventListener("haptik_sdk", function () {
+            HaptikSDK.signup({
+            auth_id: createAndValidateAuthId("haptik_api_auth_id"),
+            auth_code: createAndValidateAuthCode("haptik_api_auth_code"),
+            custom_data: {cookieString: fetchTrafficSourceCookie('initialTrafficSource')}
+            }, function (status, error, data) {
+            if (status) {
+            console.log('SUCCESS', data);
+            } else {
+            console.log('ERROR', error);
+            }
+            })
+            })
+        </script>
+</body>
+
+</HTML>
